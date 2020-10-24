@@ -1,7 +1,7 @@
 #include<stdio.h>
 #include<string.h>
-//#include "storage.h"
-#include "dynamic_int_arr.c"
+//#include "dynamic_int_arr.c"
+#include "dynamic_char_arr.c"
 
 /*
 
@@ -43,16 +43,26 @@ char * getChartList(char str[]) {
 
 int main() {
 
-    /*
     // count number of chars
     char string[] = "Hola soy anderson como van todos";
     char * token = strtok(string, " ");
-    int count = 0;
+    Array pointers;
+    Array_Init(&pointers);
 
     while( token != NULL ) {
-        count++;
+        Array_Add(&pointers, token);
         token = strtok(NULL, " ");
     }
+
+    int i = 0;
+
+    for (i = 0; i < pointers.size; i++) {
+        printf("value: %s ", pointers.array[i]);
+    }
+
+    Array_Free(&pointers);
+
+    /*
 
     //store each char into an array
     char * arr[count];
@@ -78,6 +88,7 @@ int main() {
     //printf("%s", value1);
     */
 
+    /*
     Array pointers;
     int i;
 
@@ -92,6 +103,7 @@ int main() {
     }
 
     Array_Free(&pointers);
+    */
 
     return 0;
 
