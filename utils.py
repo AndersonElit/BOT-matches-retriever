@@ -38,6 +38,7 @@ class Utils:
             self.list.append(data_set)
 
         list = self.list
+        sorted_list = sorted(list, key=lambda date: date[0])
 
         # rearrange matches per date
         count = 1
