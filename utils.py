@@ -1,5 +1,6 @@
 import pickle
 from bash import bash
+import numpy as np
 
 class Utils:
 
@@ -39,28 +40,14 @@ class Utils:
             data_set = [int(item_list[0]), item_list[4], item_list[6], int(goals[0]), int(goals[1])]
             self.list.append(data_set)
 
-        list = self.list
         # rearrange matches per date
+        list = self.list
         sorted_list = sorted(list, key=lambda date: date[0])
-        self.list = []
-        limit = len(teams_list)/2
-        start = 0
-        end = limit
-        new_length = len(sorted_list) - limit
+        matches_per_date = (len(teams_list))/2
+        dates_num = len(sorted_list)/matches_per_date
+        split_per_date = np.array_split(sorted_list, dates_num)
 
-        while end <= new_length:
-
-            date = sorted_list[start:end]
-            self.list.append(date)
-            start += limit
-            end += limit
-        
-        last_item = sorted_list[end:]
-        self.list.append(last_item)
-
-        final_list = self.list
-
-        return final_list
+        return split_per_date
 
     def serialize_teams(self, years, teams_list):
 
