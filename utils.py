@@ -64,9 +64,8 @@ class Utils:
         #move file to teams dir
         command = 'mv ' + file_name + ' premier_league/teams/'
         bash(command)
-        msg = "porceso exitoso"
 
-        return msg
+        return ''
 
     def serialize_matches(self, years, matches_list):
 
@@ -81,8 +80,7 @@ class Utils:
         print(list)
 
         #move file to teams dir
-        command = 'mv ' + file_name + ' premier_league/teams/'
+        command = 'mv ' + file_name + ' premier_league/matches/'
         bash(command)
-        msg = "porceso exitoso"
 
-        return msg
+        return ''

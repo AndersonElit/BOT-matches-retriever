@@ -1,14 +1,11 @@
-from scraper import Scraper
+from bot import BOT
 
-sc = Scraper()
+bt = BOT()
 
-print('getting page content..............................')
+url = 'https://fbref.com/en/comps/9/26/1992-1993-Premiership-Stats'
 
-url = 'https://fbref.com/en/comps/9/1889/2018-2019-Premier-League-Stats'
-sc.get_page_content(url)
+bt.get_matches(url)
 
-print('saving teams')
-sc.get_teams()
 
 
 
