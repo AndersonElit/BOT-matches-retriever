@@ -23,7 +23,13 @@ class Utils:
         # depure non util lines
         for item in text_list:
 
+            """
             if item == ',,,,,,,,,,,' or item == '' or item == ' ':
+                pass
+            else:
+                new_list.append(item)
+            """
+            if item == ',,,,,,,,,,,,,' or item == '' or item == ' ':
                 pass
             else:
                 new_list.append(item)
