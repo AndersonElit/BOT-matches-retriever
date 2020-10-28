@@ -18,6 +18,7 @@ class Utils:
     def matches_list(self, text, teams_list):
 
         text_list = text.splitlines()
+        new_list = []
         
         # depure non util lines
         for item in text_list:
@@ -25,24 +26,28 @@ class Utils:
             if item == ',,,,,,,,,,,' or item == '' or item == ' ':
                 pass
             else:
-                self.list.append(item)
+                new_list.append(item)
         
-        list = self.list
-        new_list = list[2:]
-        self.list = []
+        new_list_mod = new_list[2:]
+        match_list = []
 
         # extract info for each match:
-        for item in new_list:
-
+        for item in new_list_mod:
+            """
             item_list = item.split(',')
             goals = item_list[5].split('–')
             # [date, local, visit, goalslocal, goalsvisit]
             data_set = [int(item_list[0]), item_list[4], item_list[6], int(goals[0]), int(goals[1])]
-            self.list.append(data_set)
+            match_list.append(data_set)
+            """
+            item_list = item.split(',')
+            goals = item_list[6].split('–')
+            # [date, local, visit, goalslocal, goalsvisit]
+            data_set = [int(item_list[0]), item_list[4], item_list[8], int(goals[0]), int(goals[1])]
+            match_list.append(data_set)
 
         # rearrange matches per date
-        list = self.list
-        sorted_list = sorted(list, key=lambda date: date[0])
+        sorted_list = sorted(match_list, key=lambda date: date[0])
         matches_per_date = (len(teams_list))/2
         dates_num = len(sorted_list)/matches_per_date
         split_per_date = np.array_split(sorted_list, dates_num)

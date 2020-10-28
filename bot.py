@@ -24,31 +24,32 @@ class BOT():
 
         # get temp
         content = driver.page_source
-        self.page_content = BeautifulSoup(content, 'html5lib')
-        page_content = self.page_content
+        page_content = BeautifulSoup(content, 'html5lib')
         h1_tag = page_content.find_all('h1', attrs={'itemprop': 'name'})
         text = h1_tag[0].text
-        self.years = utl.get_years(text)
-        temps_years = self.years
+        years = utl.get_years(text)
 
-        while temps_years[0] <= 2018 and temps_years[1] <= 2019:
+        while years[0] < 2019 and years[1] < 2020:
 
-            print(f"obteniendo los datos para la temporada {str(temps_years[0])}-{str(temps_years[1])}")
+            print(f"obteniendo los datos para la temporada {str(years[0])}-{str(years[1])}")
 
             #get teams
             content = driver.page_source
-            self.page_content = BeautifulSoup(content, 'html5lib')
-            page_content = self.page_content
+            page_content = BeautifulSoup(content, 'html5lib')
             tableteams = page_content.find_all('table')
             tds = tableteams[9].find_all('td', attrs = {'data-stat':'squad'})
+            teams_list = []
 
             for td in tds:
                 team = td.a.text
-                self.teams.append(team)
+                teams_list.append(team)
 
             #serialize and save teams
-            teams_list = self.teams
-            utl.serialize_teams(temps_years, teams_list)
+            utl.serialize_teams(years, teams_list)
+
+            # refresh page
+            driver.refresh()
+            time.sleep(20)
 
             # click in scores and fixtures
             navbar = driver.find_elements_by_class_name('full')[1]
@@ -69,17 +70,15 @@ class BOT():
 
             # get matches list
             page_content = driver.page_source
-            self.page_content = BeautifulSoup(page_content, 'html5lib')
-            content = self.page_content
-            pre_tag = content.find_all('pre')
+            page_content = BeautifulSoup(page_content, 'html5lib')
+            pre_tag = page_content.find_all('pre')
             text = pre_tag[0].text
-            self.matches = utl.matches_list(text, teams_list)
+            matches = utl.matches_list(text, teams_list)
 
             # serialize an save matches list
-            all_matches = self.matches
-            utl.serialize_matches(temps_years, all_matches)
+            utl.serialize_matches(years, matches)
 
-            print(f"datos {temps_years[0]}-{temps_years[1]} recuperados")
+            print(f"datos {years[0]}-{years[1]} recuperados")
 
             # click in overview
             navbar2 = driver.find_elements_by_class_name('full')[0]
@@ -93,14 +92,9 @@ class BOT():
 
             # get next temp
             content = driver.page_source
-            self.page_content = BeautifulSoup(content, 'html5lib')
-            page_content = self.page_content
+            page_content = BeautifulSoup(content, 'html5lib')
             h1_tag = page_content.find_all('h1', attrs={'itemprop': 'name'})
             text = h1_tag[0].text
-            self.years = utl.get_years(text)
-            temps_years = self.years
-            self.teams = []
-            self.matches = []
-            self.page_content = ''
+            years = utl.get_years(text)
 
         return ''
